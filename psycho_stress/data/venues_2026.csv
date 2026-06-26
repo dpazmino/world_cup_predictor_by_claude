@@ -1,0 +1,17 @@
+city,stadium,country,altitude_m,roof,utc_offset,lat,lon
+Atlanta,Mercedes-Benz Stadium,USA,320,retractable,-4,33.755,-84.401
+Boston,Gillette Stadium,USA,43,open,-4,42.091,-71.264
+Dallas,AT&T Stadium,USA,180,retractable,-5,32.748,-97.093
+Houston,NRG Stadium,USA,12,retractable,-5,29.685,-95.411
+Kansas City,Arrowhead Stadium,USA,270,open,-5,39.049,-94.484
+Los Angeles,SoFi Stadium,USA,30,fixed,-7,33.953,-118.339
+Miami,Hard Rock Stadium,USA,2,open,-4,25.958,-80.239
+New York,MetLife Stadium,USA,7,open,-4,40.814,-74.074
+Philadelphia,Lincoln Financial Field,USA,12,open,-4,39.901,-75.168
+San Francisco,Levi's Stadium,USA,9,open,-7,37.403,-121.970
+Seattle,Lumen Field,USA,7,open,-7,47.595,-122.332
+Guadalajara,Estadio Akron,Mexico,1560,open,-6,20.682,-103.462
+Mexico City,Estadio Azteca,Mexico,2240,open,-6,19.303,-99.150
+Monterrey,Estadio BBVA,Mexico,540,open,-6,25.669,-100.244
+Toronto,BMO Field,Canada,76,open,-4,43.633,-79.418
+Vancouver,BC Place,Canada,3,retractable,-7,49.277,-123.112

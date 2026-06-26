@@ -1,0 +1,60 @@
+date,home,away,venue,temp_c,humidity,wind_kph,rain_prob,home_travel_km,away_travel_km,home_tz_cross,away_tz_cross,home_days_arr,away_days_arr,home_rest_days,away_rest_days,home_prev_alt,away_prev_alt,crowd_support,crowd_hostility
+2026-06-11,Mexico,South Africa,Mexico City,23,45,9,0.35,0,0,0.0,0.0,7,7,6,6,2240.0,1750.0,home,0.5
+2026-06-11,South Korea,Czechia,Guadalajara,29,55,10,0.35,0,0,0.0,0.0,7,7,6,6,40.0,200.0,neutral,0.18
+2026-06-12,Canada,Bosnia and Herzegovina,Toronto,25,65,13,0.25,0,0,0.0,0.0,7,7,6,6,76.0,520.0,home,0.5
+2026-06-12,USA,Paraguay,Los Angeles,24,65,10,0.05,0,0,0.0,0.0,7,7,6,6,100.0,130.0,home,0.5
+2026-06-13,Qatar,Switzerland,San Francisco,24,62,18,0.05,0,0,0.0,0.0,7,7,6,6,10.0,540.0,neutral,0.18
+2026-06-13,Brazil,Morocco,New York,27,62,13,0.25,0,0,0.0,0.0,7,7,6,6,10.0,50.0,neutral,0.18
+2026-06-13,Haiti,Scotland,Boston,25,65,14,0.20,0,0,0.0,0.0,7,7,6,6,30.0,40.0,neutral,0.18
+2026-06-14,Australia,Turkey,Vancouver,20,70,11,0.30,0,0,0.0,0.0,7,7,6,6,20.0,200.0,neutral,0.18
+2026-06-14,Germany,Curacao,Houston,33,72,8,0.40,0,0,0.0,0.0,7,7,6,6,100.0,10.0,neutral,0.18
+2026-06-14,Netherlands,Japan,Dallas,33,60,16,0.15,0,0,0.0,0.0,7,7,6,6,2.0,40.0,neutral,0.18
+2026-06-14,Ivory Coast,Ecuador,Philadelphia,29,62,11,0.25,0,0,0.0,0.0,7,7,6,6,20.0,2850.0,neutral,0.18
+2026-06-15,Spain,Cape Verde,Atlanta,29,65,9,0.30,0,0,0.0,0.0,7,7,6,6,660.0,30.0,neutral,0.18
+2026-06-15,Belgium,Egypt,Seattle,21,65,12,0.20,0,0,0.0,0.0,7,7,6,6,60.0,75.0,neutral,0.18
+2026-06-15,Saudi Arabia,Uruguay,Miami,32,71,12,0.45,0,0,0.0,0.0,7,7,6,6,600.0,40.0,neutral,0.18
+2026-06-15,Iran,New Zealand,Los Angeles,24,65,10,0.05,0,0,0.0,0.0,7,7,6,6,1200.0,20.0,neutral,0.18
+2026-06-16,France,Senegal,New York,27,62,13,0.25,0,0,0.0,0.0,7,7,6,6,35.0,20.0,neutral,0.18
+2026-06-16,Iraq,Norway,Boston,25,65,14,0.20,0,0,0.0,0.0,7,7,6,6,34.0,25.0,neutral,0.18
+2026-06-16,Argentina,Algeria,Kansas City,29,60,17,0.25,0,0,0.0,0.0,7,7,6,6,25.0,150.0,neutral,0.18
+2026-06-17,Austria,Jordan,San Francisco,24,62,18,0.05,0,0,0.0,0.0,7,7,6,6,190.0,1000.0,neutral,0.18
+2026-06-17,Portugal,DR Congo,Houston,33,72,8,0.40,0,0,0.0,0.0,7,7,6,6,10.0,280.0,neutral,0.18
+2026-06-17,England,Croatia,Dallas,33,60,16,0.15,0,0,0.0,0.0,7,7,6,6,35.0,120.0,neutral,0.18
+2026-06-17,Ghana,Panama,Toronto,25,65,13,0.25,0,0,0.0,0.0,7,7,6,6,60.0,10.0,neutral,0.18
+2026-06-17,Uzbekistan,Colombia,Mexico City,23,45,9,0.35,0,0,0.0,0.0,7,7,6,6,455.0,2640.0,neutral,0.18
+2026-06-18,Czechia,South Africa,Atlanta,29,65,9,0.30,2373,2171,2.0,2.0,7,7,7,7,1560.0,2240.0,neutral,0.18
+2026-06-18,Switzerland,Bosnia and Herzegovina,Los Angeles,24,65,10,0.05,505,3504,0.0,3.0,5,6,5,6,9.0,76.0,neutral,0.18
+2026-06-18,Canada,Qatar,Vancouver,20,70,11,0.30,3357,1324,3.0,0.0,6,5,6,5,76.0,9.0,home,0.5
+2026-06-18,Mexico,South Korea,Guadalajara,29,55,10,0.35,476,0,0.0,0.0,7,7,7,7,2240.0,1560.0,home,0.5
+2026-06-19,USA,Australia,Seattle,21,65,12,0.20,1553,196,0.0,0.0,7,5,7,5,30.0,3.0,home,0.5
+2026-06-19,Scotland,Morocco,Boston,25,65,14,0.20,0,274,0.0,0.0,6,6,6,6,43.0,7.0,neutral,0.18
+2026-06-19,Brazil,Haiti,Philadelphia,29,62,11,0.25,137,408,0.0,0.0,6,6,6,6,7.0,43.0,neutral,0.18
+2026-06-19,Turkey,Paraguay,San Francisco,24,62,18,0.05,1324,505,0.0,0.0,5,7,5,7,3.0,30.0,neutral,0.18
+2026-06-20,Netherlands,Sweden,Houston,33,72,8,0.40,376,0,0.0,0.0,6,7,6,6,180.0,30.0,neutral,0.18
+2026-06-20,Germany,Ivory Coast,Toronto,25,65,13,0.25,2100,544,1.0,0.0,6,6,6,6,12.0,12.0,neutral,0.18
+2026-06-20,Ecuador,Curacao,Kansas City,29,60,17,0.25,1657,1045,1.0,0.0,6,6,6,6,12.0,12.0,neutral,0.18
+2026-06-21,Tunisia,Japan,Monterrey,32,63,15,0.20,0,844,0.0,1.0,7,7,6,7,10.0,180.0,neutral,0.18
+2026-06-21,Spain,Saudi Arabia,Atlanta,29,65,9,0.30,0,955,0.0,0.0,6,6,6,6,320.0,2.0,neutral,0.18
+2026-06-21,Belgium,Iran,Los Angeles,24,65,10,0.05,1553,0,0.0,0.0,6,6,6,6,7.0,30.0,neutral,0.18
+2026-06-21,Uruguay,Cape Verde,Miami,32,71,12,0.45,0,955,0.0,0.0,6,6,6,6,2.0,320.0,neutral,0.18
+2026-06-21,New Zealand,Egypt,Vancouver,20,70,11,0.30,1749,196,0.0,0.0,6,6,6,6,30.0,7.0,neutral,0.18
+2026-06-22,Argentina,Austria,Dallas,33,60,16,0.15,739,2315,0.0,2.0,6,5,6,5,270.0,9.0,neutral,0.18
+2026-06-22,Norway,Senegal,New York,27,62,13,0.25,274,0,0.0,0.0,6,6,6,6,43.0,7.0,neutral,0.18
+2026-06-22,France,Iraq,Philadelphia,29,62,11,0.25,137,408,0.0,0.0,6,6,6,6,7.0,43.0,neutral,0.18
+2026-06-22,Jordan,Algeria,San Francisco,24,62,18,0.05,0,2399,0.0,2.0,5,6,5,6,9.0,270.0,neutral,0.18
+2026-06-23,Portugal,Uzbekistan,Houston,33,72,8,0.40,0,1215,0.0,1.0,6,6,6,6,12.0,2240.0,neutral,0.18
+2026-06-23,England,Ghana,Boston,25,65,14,0.20,2494,686,1.0,0.0,6,6,6,6,180.0,76.0,neutral,0.18
+2026-06-23,Panama,Croatia,Toronto,25,65,13,0.25,0,1955,0.0,1.0,6,6,6,6,76.0,180.0,neutral,0.18
+2026-06-23,Colombia,DR Congo,Guadalajara,29,55,10,0.35,476,1287,0.0,1.0,6,6,6,6,2240.0,12.0,neutral,0.18
+2026-06-24,Canada,Switzerland,Vancouver,20,70,11,0.30,0,1749,0.0,0.0,6,6,6,6,3.0,30.0,home,0.5
+2026-06-24,Bosnia and Herzegovina,Qatar,Seattle,21,65,12,0.20,1553,196,0.0,0.0,6,6,6,6,30.0,3.0,neutral,0.18
+2026-06-24,Scotland,Brazil,Miami,32,71,12,0.45,1973,1620,0.0,0.0,5,5,5,5,43.0,12.0,neutral,0.18
+2026-06-24,Morocco,Haiti,Atlanta,29,65,9,0.30,1476,1068,0.0,0.0,5,5,5,5,43.0,12.0,neutral,0.18
+2026-06-24,Mexico,Czechia,Mexico City,23,45,9,0.35,476,2171,0.0,2.0,6,6,6,6,1560.0,320.0,home,0.5
+2026-06-24,South Africa,South Korea,Monterrey,32,63,15,0.20,1771,645,2.0,0.0,6,6,6,6,320.0,1560.0,neutral,0.18
+2026-06-25,Curacao,Ivory Coast,Philadelphia,29,62,11,0.25,1657,544,1.0,0.0,5,5,5,5,270.0,76.0,neutral,0.18
+2026-06-25,Ecuador,Germany,New York,27,62,13,0.25,1747,540,1.0,0.0,5,5,5,5,270.0,76.0,neutral,0.18
+2026-06-25,Tunisia,Netherlands,Kansas City,29,60,17,0.25,1582,1045,1.0,0.0,4,5,4,5,540.0,12.0,neutral,0.18
+2026-06-25,Japan,Sweden,Dallas,33,60,16,0.15,844,376,1.0,0.0,4,5,4,5,540.0,12.0,neutral,0.18
+2026-06-25,USA,Turkey,Los Angeles,24,65,10,0.05,1553,505,0.0,0.0,6,6,6,6,7.0,9.0,home,0.5
+2026-06-25,Paraguay,Australia,San Francisco,24,62,18,0.05,0,1134,0.0,0.0,6,6,6,6,9.0,7.0,neutral,0.18

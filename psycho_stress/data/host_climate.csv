@@ -1,0 +1,23 @@
+# June climate normals for the 16 host cities (web-sourced; representative match-time
+# values). temp_c = typical match-time air temp (hot cities lean to evening kickoffs,
+# so a few °C below the afternoon high); humidity = typical RH%. Roofed venues are
+# climate-controlled downstream in env_data (heat/weather damped), so their values here
+# are nominal. Sources: weather.com WC2026 heat guide, currentresults.com June normals,
+# PMC WBGT scheduling study (see chat for links).
+city,temp_c,humidity,wind_kph,rain_prob
+Atlanta,29,65,9,0.30
+Boston,25,65,14,0.20
+Dallas,33,60,16,0.15
+Houston,33,72,8,0.40
+Kansas City,29,60,17,0.25
+Los Angeles,24,65,10,0.05
+Miami,32,71,12,0.45
+New York,27,62,13,0.25
+Philadelphia,29,62,11,0.25
+San Francisco,24,62,18,0.05
+Seattle,21,65,12,0.20
+Guadalajara,29,55,10,0.35
+Mexico City,23,45,9,0.35
+Monterrey,32,63,15,0.20
+Toronto,25,65,13,0.25
+Vancouver,20,70,11,0.30

@@ -1,0 +1,78 @@
+# Real 2026 World Cup group-stage venues per fixture (ESPN schedule). City normalised to
+# venues_2026.csv names (Zapopan→Guadalajara, Inglewood→Los Angeles, Santa Clara→San
+# Francisco, East Rutherford→New York, Foxborough→Boston, Arlington→Dallas, Guadalupe→
+# Monterrey, Miami Gardens→Miami). Teams normalised to repo names. Matched by date + the
+# unordered team pair, so home/away order need not match results.csv.
+date,city,team_a,team_b
+2026-06-11,Mexico City,Mexico,South Africa
+2026-06-11,Guadalajara,South Korea,Czechia
+2026-06-12,Toronto,Canada,Bosnia and Herzegovina
+2026-06-12,Los Angeles,USA,Paraguay
+2026-06-13,San Francisco,Qatar,Switzerland
+2026-06-13,New York,Brazil,Morocco
+2026-06-13,Boston,Haiti,Scotland
+2026-06-13,Vancouver,Australia,Turkey
+2026-06-14,Houston,Germany,Curacao
+2026-06-14,Dallas,Netherlands,Japan
+2026-06-14,Philadelphia,Ivory Coast,Ecuador
+2026-06-14,Monterrey,Sweden,Tunisia
+2026-06-15,Atlanta,Spain,Cape Verde
+2026-06-15,Seattle,Belgium,Egypt
+2026-06-15,Miami,Saudi Arabia,Uruguay
+2026-06-15,Los Angeles,Iran,New Zealand
+2026-06-16,New York,France,Senegal
+2026-06-16,Boston,Iraq,Norway
+2026-06-16,Kansas City,Argentina,Algeria
+2026-06-16,San Francisco,Austria,Jordan
+2026-06-17,Houston,Portugal,DR Congo
+2026-06-17,Dallas,England,Croatia
+2026-06-17,Toronto,Ghana,Panama
+2026-06-17,Mexico City,Uzbekistan,Colombia
+2026-06-18,Atlanta,Czechia,South Africa
+2026-06-18,Los Angeles,Switzerland,Bosnia and Herzegovina
+2026-06-18,Vancouver,Canada,Qatar
+2026-06-18,Guadalajara,Mexico,South Korea
+2026-06-19,Seattle,USA,Australia
+2026-06-19,Boston,Scotland,Morocco
+2026-06-19,Philadelphia,Brazil,Haiti
+2026-06-19,San Francisco,Turkey,Paraguay
+2026-06-20,Houston,Netherlands,Sweden
+2026-06-20,Toronto,Germany,Ivory Coast
+2026-06-20,Kansas City,Ecuador,Curacao
+2026-06-20,Monterrey,Tunisia,Japan
+2026-06-21,Atlanta,Spain,Saudi Arabia
+2026-06-21,Los Angeles,Belgium,Iran
+2026-06-21,Miami,Uruguay,Cape Verde
+2026-06-21,Vancouver,New Zealand,Egypt
+2026-06-22,Dallas,Argentina,Austria
+2026-06-22,Philadelphia,France,Iraq
+2026-06-22,New York,Norway,Senegal
+2026-06-22,San Francisco,Algeria,Jordan
+2026-06-23,Houston,Portugal,Uzbekistan
+2026-06-23,Boston,England,Ghana
+2026-06-23,Toronto,Panama,Croatia
+2026-06-23,Guadalajara,Colombia,DR Congo
+2026-06-24,Vancouver,Switzerland,Canada
+2026-06-24,Seattle,Bosnia and Herzegovina,Qatar
+2026-06-24,Miami,Scotland,Brazil
+2026-06-24,Atlanta,Morocco,Haiti
+2026-06-24,Mexico City,Czechia,Mexico
+2026-06-24,Monterrey,South Africa,South Korea
+2026-06-25,New York,Ecuador,Germany
+2026-06-25,Philadelphia,Curacao,Ivory Coast
+2026-06-25,Dallas,Japan,Sweden
+2026-06-25,Kansas City,Tunisia,Netherlands
+2026-06-25,Los Angeles,Turkey,USA
+2026-06-25,San Francisco,Paraguay,Australia
+2026-06-26,Boston,Norway,France
+2026-06-26,Toronto,Senegal,Iraq
+2026-06-26,Houston,Cape Verde,Saudi Arabia
+2026-06-26,Guadalajara,Uruguay,Spain
+2026-06-26,Seattle,Egypt,Iran
+2026-06-26,Vancouver,New Zealand,Belgium
+2026-06-27,New York,Panama,England
+2026-06-27,Philadelphia,Croatia,Ghana
+2026-06-27,Miami,Colombia,Portugal
+2026-06-27,Atlanta,DR Congo,Uzbekistan
+2026-06-27,Kansas City,Algeria,Austria
+2026-06-27,Dallas,Jordan,Argentina

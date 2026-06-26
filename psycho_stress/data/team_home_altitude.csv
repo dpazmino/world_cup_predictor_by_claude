@@ -1,0 +1,64 @@
+# Primary home-stadium / capital elevation (metres). Drives altitude *adaptation*:
+# a team whose home altitude is near the venue's barely feels it. Geographic facts
+# (capital / main national stadium elevation). High-altitude sides are the ones that
+# matter most (Mexico, Ecuador, Colombia, South Africa, Iran, Bolivia, Jordan).
+team,altitude_m
+Argentina,25
+Brazil,10
+Mexico,2240
+Ecuador,2850
+Colombia,2640
+Uruguay,40
+Paraguay,130
+Venezuela,900
+USA,100
+Canada,76
+Honduras,990
+Panama,10
+Jamaica,10
+Haiti,30
+Curacao,10
+Cape Verde,30
+England,35
+Scotland,40
+France,35
+Germany,100
+Spain,660
+Portugal,10
+Netherlands,2
+Belgium,60
+Italy,20
+Croatia,120
+Serbia,110
+Switzerland,540
+Austria,190
+Poland,100
+Turkey,200
+Czechia,200
+Denmark,10
+Norway,25
+Sweden,30
+Romania,80
+Bosnia and Herzegovina,520
+Morocco,50
+Algeria,150
+Tunisia,10
+Egypt,75
+Senegal,20
+Ivory Coast,20
+Ghana,60
+Nigeria,480
+Cameroon,750
+DR Congo,280
+South Africa,1750
+Iran,1200
+Saudi Arabia,600
+Qatar,10
+Iraq,34
+Jordan,1000
+Uzbekistan,455
+South Korea,40
+Japan,40
+Australia,20
+New Zealand,20
+China,50

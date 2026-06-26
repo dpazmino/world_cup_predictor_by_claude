@@ -1,0 +1,17 @@
+# Secrets
+.env
+
+# Python caches
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# Large third-party dataset (regenerable via fetch_player_stats.py)
+kaggle_data/
+
+# Machine-local harness settings
+.claude/
+
+# docs/ is its own git repo (github.com/dpazmino/wc) with its own remote — keep it separate
+docs/

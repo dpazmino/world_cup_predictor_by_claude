@@ -1,0 +1,360 @@
+# Real international results used to backtest the predictor.
+# Seed set = 2022 World Cup 90-minute results (all neutral venue) between teams
+# that have squads in this repo. VERIFY/EXPAND before relying on backtest numbers.
+# Columns: date,home,away,home_goals,away_goals,neutral[,odds_home,odds_draw,odds_away]
+# The 3 trailing odds columns are OPTIONAL closing decimal odds (e.g. 1.80,3.60,4.50).
+# When present, backtest.py de-vigs them and benchmarks the model against the market.
+# NOTE: for neutral fixtures (neutral=1) the home/away column order is arbitrary and does
+# NOT bias the model — Elo/squad treat neutral games symmetrically. It only affects the
+# vanity "accuracy" of the always-pick-home prior baseline, not RPS/Brier/log-loss.
+2022-11-22,Argentina,Saudi Arabia,1,2,1
+2022-11-26,Argentina,Mexico,2,0,1
+2022-11-30,Poland,Argentina,0,2,1
+2022-12-03,Argentina,Australia,2,1,1
+2022-11-22,Mexico,Poland,0,0,1
+2022-11-30,Saudi Arabia,Mexico,1,2,1
+2022-11-22,Denmark,Tunisia,0,0,1
+2022-11-26,France,Denmark,2,1,1
+2022-11-22,France,Australia,4,1,1
+2022-11-30,Tunisia,France,1,0,1
+2022-11-26,Australia,Tunisia,1,0,1
+2022-11-30,Australia,Denmark,1,0,1
+2022-11-21,England,Iran,6,2,1
+2022-11-25,England,USA,0,0,1
+2022-11-29,England,Senegal,3,0,1
+2022-11-21,Senegal,Netherlands,0,2,1
+2022-11-25,Netherlands,Ecuador,1,1,1
+2022-11-29,Netherlands,Qatar,2,0,1
+2022-11-20,Qatar,Ecuador,0,2,1
+2022-11-25,Qatar,Senegal,1,3,1
+2022-11-23,Germany,Japan,1,2,1
+2022-11-27,Spain,Germany,1,1,1
+2022-12-01,Japan,Spain,2,1,1
+2022-11-24,Switzerland,Cameroon,1,0,1
+2022-11-28,Cameroon,Serbia,3,3,1
+2022-12-02,Serbia,Switzerland,2,3,1
+2022-11-24,Brazil,Serbia,2,0,1
+2022-11-28,Brazil,Switzerland,1,0,1
+2022-12-02,Cameroon,Brazil,1,0,1
+2022-11-24,Portugal,Ghana,3,2,1
+2022-12-02,South Korea,Portugal,2,1,1
+2022-11-27,Portugal,Uruguay,2,0,1
+2022-11-23,Morocco,Croatia,0,0,1
+2022-11-27,Belgium,Morocco,0,2,1
+2022-11-27,Croatia,Canada,4,1,1
+2022-12-10,Morocco,Portugal,1,0,1
+2022-12-09,England,France,1,2,1
+2022-12-13,France,Morocco,2,0,1
+2022-12-09,Netherlands,Argentina,2,2,1
+2022-12-06,Brazil,South Korea,4,1,1
+# --- More 2022 World Cup (knockouts decided in ET/pens recorded as 90' draws) ---
+2022-12-03,Netherlands,USA,3,1,1
+2022-12-05,Japan,Croatia,1,1,1
+2022-12-09,Croatia,Brazil,1,1,1
+2022-12-04,France,Poland,3,1,1
+2022-12-17,Croatia,Morocco,2,1,1
+2022-12-18,Argentina,France,2,2,1
+# --- Euro 2024 (Germany host; Germany games neutral=0) ---
+2024-06-14,Germany,Scotland,5,1,0
+2024-06-23,Germany,Switzerland,1,1,0
+2024-06-29,Germany,Denmark,2,0,0
+2024-06-15,Spain,Croatia,3,0,1
+2024-06-20,Spain,Italy,1,0,1
+2024-07-09,Spain,France,2,1,1
+2024-07-14,Spain,England,2,1,1
+2024-06-15,Italy,Croatia,1,1,1
+2024-06-21,Netherlands,France,0,0,1
+2024-06-25,Austria,Netherlands,3,2,1
+2024-06-17,France,Austria,1,0,1
+2024-06-21,France,Poland,1,1,1
+2024-06-22,Portugal,Turkey,3,0,1
+2024-07-05,Portugal,France,0,0,1
+2024-07-06,Netherlands,Turkey,2,1,1
+2024-07-02,Turkey,Austria,2,1,1
+2024-06-29,Switzerland,Italy,2,0,1
+2024-07-06,England,Switzerland,1,1,1
+2024-06-20,England,Denmark,1,1,1
+2024-06-22,Belgium,Romania,2,0,1
+2024-06-16,Denmark,Serbia,0,0,1
+2024-07-10,Netherlands,England,1,2,1
+# --- Copa America 2024 (USA host; USA games neutral=0) ---
+2024-06-20,Argentina,Canada,2,0,1
+2024-07-09,Argentina,Canada,2,0,1
+2024-07-10,Colombia,Uruguay,1,0,1
+2024-07-06,Uruguay,Brazil,0,0,1
+2024-07-02,Colombia,Brazil,1,1,1
+2024-07-04,Argentina,Ecuador,1,1,1
+2024-07-14,Argentina,Colombia,0,0,1
+2024-06-26,Venezuela,Mexico,1,0,1
+2024-06-30,Mexico,Ecuador,0,0,1
+2024-06-23,USA,Panama,1,2,0
+2024-07-01,USA,Uruguay,0,1,0
+# --- AFCON 2023 (Ivory Coast host, played Jan-Feb 2024; IC games neutral=0) ---
+2024-01-18,Ivory Coast,Nigeria,0,1,0
+2024-02-11,Ivory Coast,Nigeria,2,1,0
+2024-01-29,Ivory Coast,Senegal,1,1,0
+2024-02-06,South Africa,Morocco,2,0,1
+2024-02-07,Nigeria,South Africa,1,1,1
+2024-01-19,Senegal,Cameroon,3,1,1
+2024-01-18,Egypt,Ghana,2,2,1
+# --- AFC Asian Cup 2023 (Qatar host, played Jan 2024; Qatar games neutral=0) ---
+2024-01-31,Qatar,Iran,3,2,0
+2024-01-19,Iraq,Japan,2,1,1
+2024-02-03,Iran,Japan,2,1,1
+# --- UEFA Nations League finals (neutral) ---
+2023-06-18,Spain,Croatia,0,0,1
+2025-06-08,Portugal,Spain,2,2,1
+# --- More 2022 World Cup group stage (neutral) ---
+2022-11-25,Senegal,Ecuador,2,1,1
+2022-11-23,Belgium,Canada,1,0,1
+2022-11-28,Ghana,South Korea,3,2,1
+2022-12-02,Uruguay,Ghana,2,0,1
+# --- More Euro 2024 group stage (neutral) ---
+2024-06-16,England,Serbia,1,0,1
+2024-06-21,Netherlands,Poland,2,1,1
+2024-06-19,Scotland,Switzerland,1,1,1
+# --- More Copa America 2024 group stage (neutral) ---
+2024-06-23,Uruguay,Panama,3,1,1
+2024-06-22,Mexico,Jamaica,1,0,1
+2024-06-26,Venezuela,Ecuador,2,1,1
+# --- WC 2026 / qualifiers (real home venue, neutral=0) ---
+2023-11-21,Brazil,Argentina,0,1,0
+2023-11-16,Uruguay,Argentina,2,0,0
+2023-11-16,Colombia,Brazil,2,1,0
+# --- Euro 2024 qualifiers (real home venue, neutral=0) ---
+2023-03-28,Scotland,Spain,2,0,0
+2023-03-24,France,Netherlands,4,0,0
+2023-03-23,Italy,England,1,2,0
+# --- UEFA Nations League 2022 group (real home venue, neutral=0) ---
+2022-06-03,Belgium,Netherlands,1,4,0
+2022-09-27,Portugal,Spain,0,1,0
+#
+# ===========================================================================
+# HISTORICAL TOURNAMENT RESULTS (recalled from memory; OUTCOMES verified, exact
+# scorelines may differ by a goal — verify against a results database for serious
+# use). Knockout ties decided in extra time/penalties are recorded as 90' draws.
+# ===========================================================================
+# --- World Cup 2018 (Russia, neutral) ---
+2018-06-16,France,Australia,2,1,1
+2018-06-21,France,Denmark,0,0,1
+2018-06-30,France,Argentina,4,3,1
+2018-07-06,France,Uruguay,2,0,1
+2018-07-10,France,Belgium,1,0,1
+2018-07-15,France,Croatia,4,2,1
+2018-06-21,Croatia,Argentina,3,0,1
+2018-06-16,Croatia,Nigeria,2,0,1
+2018-07-01,Croatia,Denmark,1,1,1
+2018-07-11,Croatia,England,1,1,1
+2018-06-18,Belgium,Panama,3,0,1
+2018-06-23,Belgium,Tunisia,5,2,1
+2018-06-28,Belgium,England,1,0,1
+2018-07-02,Belgium,Japan,3,2,1
+2018-07-06,Belgium,Brazil,2,1,1
+2018-07-14,Belgium,England,2,0,1
+2018-06-17,Brazil,Switzerland,1,1,1
+2018-06-22,Brazil,Serbia,2,0,1
+2018-07-02,Brazil,Mexico,2,0,1
+2018-06-26,Argentina,Nigeria,2,1,1
+2018-06-15,Uruguay,Egypt,1,0,1
+2018-06-20,Uruguay,Saudi Arabia,1,0,1
+2018-06-30,Uruguay,Portugal,2,1,1
+2018-06-15,Portugal,Spain,3,3,1
+2018-06-20,Portugal,Morocco,1,0,1
+2018-06-25,Portugal,Iran,1,1,1
+2018-06-25,Spain,Morocco,2,2,1
+2018-06-20,Spain,Iran,1,0,1
+2018-06-18,England,Tunisia,2,1,1
+2018-06-24,England,Panama,6,1,1
+2018-07-03,England,Colombia,1,1,1
+2018-06-19,Colombia,Poland,0,0,1
+2018-06-28,Colombia,Senegal,1,0,1
+2018-06-19,Japan,Colombia,2,1,1
+2018-06-24,Japan,Senegal,2,2,1
+2018-06-28,Poland,Japan,1,0,1
+2018-06-24,Senegal,Poland,2,1,1
+2018-06-17,Mexico,Germany,1,0,1
+2018-06-23,Mexico,South Korea,2,1,1
+2018-06-27,South Korea,Germany,2,0,1
+2018-06-22,Switzerland,Serbia,2,1,1
+2018-06-28,Tunisia,Panama,2,1,1
+# --- World Cup 2014 (Brazil host = neutral=0 for Brazil; else neutral) ---
+2014-07-08,Brazil,Germany,1,7,0
+2014-06-12,Brazil,Croatia,3,1,0
+2014-06-17,Brazil,Mexico,0,0,0
+2014-06-23,Brazil,Cameroon,4,1,0
+2014-07-04,Brazil,Colombia,2,1,0
+2014-07-12,Brazil,Netherlands,0,3,0
+2014-07-13,Germany,Argentina,0,0,1
+2014-06-16,Germany,Portugal,4,0,1
+2014-06-21,Germany,Ghana,2,2,1
+2014-06-26,Germany,USA,1,0,1
+2014-07-04,Germany,France,1,0,1
+2014-06-13,Netherlands,Spain,5,1,1
+2014-06-18,Netherlands,Australia,3,2,1
+2014-06-29,Netherlands,Mexico,2,1,1
+2014-07-09,Netherlands,Argentina,0,0,1
+2014-07-01,Argentina,Switzerland,1,0,1
+2014-07-05,Argentina,Belgium,1,0,1
+2014-06-21,Argentina,Iran,1,0,1
+2014-06-25,Argentina,Nigeria,3,2,1
+2014-06-14,Colombia,Ivory Coast,2,1,1
+2014-06-24,Colombia,Japan,4,1,1
+2014-06-28,Colombia,Uruguay,2,0,1
+2014-06-15,France,Honduras,3,0,1
+2014-06-20,France,Switzerland,5,2,1
+2014-06-30,France,Nigeria,2,0,1
+2014-06-13,Mexico,Cameroon,1,0,1
+2014-06-23,Mexico,Croatia,3,1,1
+2014-06-14,Uruguay,England,2,1,1
+2014-06-19,Uruguay,Italy,1,0,1
+2014-06-14,Italy,England,2,1,1
+2014-06-15,Switzerland,Ecuador,2,1,1
+2014-06-25,Switzerland,Honduras,3,0,1
+2014-06-20,Ecuador,Honduras,2,1,1
+2014-06-17,Belgium,Algeria,2,1,1
+2014-06-22,Belgium,Australia,2,0,1
+2014-06-26,Belgium,South Korea,1,0,1
+2014-07-01,Belgium,USA,0,0,1
+2014-06-16,USA,Ghana,2,1,1
+2014-06-22,USA,Portugal,2,2,1
+2014-06-26,Spain,Australia,3,0,1
+# --- Euro 2020 (2021; England/Italy home games neutral=0, else neutral) ---
+2021-06-13,England,Croatia,1,0,0
+2021-06-18,England,Scotland,0,0,0
+2021-06-29,England,Germany,2,0,0
+2021-07-07,England,Denmark,1,1,0
+2021-07-11,England,Italy,1,1,0
+2021-06-11,Italy,Turkey,3,0,0
+2021-06-16,Italy,Switzerland,3,0,0
+2021-06-26,Italy,Austria,1,1,1
+2021-07-02,Italy,Belgium,2,1,1
+2021-07-06,Italy,Spain,1,1,1
+2021-06-17,Belgium,Denmark,2,1,1
+2021-06-27,Belgium,Portugal,1,0,1
+2021-06-17,Netherlands,Austria,2,0,1
+2021-06-15,France,Germany,1,0,1
+2021-06-23,France,Portugal,2,2,1
+2021-06-28,France,Switzerland,3,3,1
+2021-06-19,Germany,Portugal,4,2,1
+2021-06-19,Spain,Poland,1,1,1
+2021-06-28,Spain,Croatia,3,3,1
+2021-07-02,Spain,Switzerland,1,1,1
+2021-06-22,Croatia,Scotland,3,1,1
+2021-06-20,Switzerland,Turkey,3,1,1
+# --- Euro 2016 (France host = neutral=0 for France; else neutral) ---
+2016-07-10,France,Portugal,0,0,0
+2016-07-07,France,Germany,2,0,0
+2016-06-10,France,Romania,2,1,0
+2016-06-19,France,Switzerland,0,0,0
+2016-07-02,Germany,Italy,1,1,1
+2016-06-16,Germany,Poland,0,0,1
+2016-06-27,Italy,Spain,2,0,1
+2016-06-13,Italy,Belgium,2,0,1
+2016-06-17,Croatia,Spain,2,1,1
+2016-06-21,Croatia,Turkey,1,0,1
+2016-06-17,Spain,Turkey,3,0,1
+2016-06-25,Switzerland,Poland,1,1,1
+2016-06-25,Portugal,Croatia,0,0,1
+2016-06-30,Portugal,Poland,1,1,1
+2016-06-18,Portugal,Austria,0,0,1
+# --- Copa America 2021 (Brazil host = neutral=0 for Brazil; else neutral) ---
+2021-07-10,Argentina,Brazil,1,0,1
+2021-07-06,Argentina,Colombia,1,1,1
+2021-07-03,Argentina,Ecuador,3,0,1
+2021-06-18,Argentina,Uruguay,1,0,1
+2021-06-13,Brazil,Venezuela,3,0,0
+2021-06-23,Brazil,Colombia,2,1,0
+# --- Copa America 2019 (Brazil host = neutral=0 for Brazil; else neutral) ---
+2019-07-02,Brazil,Argentina,2,0,0
+2019-06-18,Brazil,Venezuela,0,0,0
+2019-06-15,Colombia,Argentina,2,0,1
+2019-06-23,Argentina,Qatar,2,0,1
+2019-06-16,Uruguay,Ecuador,4,0,1
+# --- AFC Asian Cup 2019 (UAE, neutral) ---
+2019-02-01,Qatar,Japan,3,1,1
+2019-01-28,Japan,Iran,3,0,1
+2019-01-25,Qatar,South Korea,1,0,1
+2019-01-21,Japan,Saudi Arabia,1,0,1
+2019-01-24,Iran,China,3,0,1
+# --- AFCON 2021 (Cameroon host, played 2022; Cameroon neutral=0, else neutral) ---
+2022-02-06,Senegal,Egypt,0,0,1
+2022-02-03,Cameroon,Egypt,0,0,0
+2022-01-30,Egypt,Morocco,2,1,1
+2022-01-15,Egypt,Nigeria,0,1,1
+2022-01-10,Morocco,Ghana,1,0,1
+2022-01-16,Ivory Coast,Algeria,3,1,1
+2022-01-23,Tunisia,Nigeria,1,0,1
+# --- CONCACAF Gold Cup (neutral; USA host games neutral=0) ---
+2023-07-16,Mexico,Panama,1,0,1
+2023-07-12,Mexico,Jamaica,3,0,1
+2023-07-12,USA,Panama,1,1,0
+# --- June 2026 results (logged from reported scores) ---
+2026-06-11,Mexico,South Africa,2,0,1
+2026-06-11,South Korea,Czechia,2,1,1
+# --- real results fetched for thin-data teams (Wikipedia, 2023-2025) ---
+2023-09-12,Egypt,Tunisia,1,3,0
+2023-10-16,Egypt,Algeria,1,1,1
+2025-09-09,South Africa,Nigeria,1,1,0
+2024-10-15,Iran,Qatar,4,1,0
+2025-06-05,Iran,Qatar,0,1,0
+2024-01-06,Iraq,South Korea,0,1,1
+2024-11-14,Honduras,Mexico,2,0,0
+2024-11-19,Mexico,Honduras,4,0,0
+2025-06-17,Canada,Honduras,6,0,0
+2026-06-12,Canada,Bosnia and Herzegovina,1,1,0
+2026-06-12,USA,Paraguay,4,1,0
+2026-06-13,Qatar,Switzerland,1,1,1
+2026-06-13,Brazil,Morocco,1,1,1
+2026-06-14,Australia,Turkey,2,0,1
+2026-06-13,Haiti,Scotland,0,1,1
+2026-06-14,Germany,Curacao,7,1,1
+2026-06-14,Netherlands,Japan,2,2,1
+2026-06-14,Ivory Coast,Ecuador,1,0,1
+2026-06-15,Spain,Cape Verde,0,0,1,1.08,12.00,26.00
+2026-06-15,Belgium,Egypt,1,1,1,1.59,3.95,5.75
+2026-06-15,Saudi Arabia,Uruguay,1,1,1,7.50,4.40,1.47
+2026-06-15,Iran,New Zealand,2,2,1,1.95,3.40,4.30
+2026-06-16,France,Senegal,3,1,1,1.47,4.60,7.00
+2026-06-16,Iraq,Norway,1,4,1,14.00,7.00,1.21
+2026-06-16,Argentina,Algeria,3,0,1,1.44,4.50,7.50
+2026-06-17,Austria,Jordan,3,1,1
+2026-06-17,Portugal,DR Congo,1,1,1
+2026-06-17,England,Croatia,4,2,1
+2026-06-17,Ghana,Panama,1,0,1
+2026-06-17,Uzbekistan,Colombia,1,3,1
+2026-06-18,Czechia,South Africa,1,1,1
+2026-06-18,Switzerland,Bosnia and Herzegovina,4,1,1
+2026-06-18,Canada,Qatar,6,0,0
+2026-06-18,Mexico,South Korea,1,0,0
+2026-06-19,USA,Australia,2,0,0
+2026-06-19,Scotland,Morocco,0,1,1
+2026-06-19,Brazil,Haiti,3,0,1
+2026-06-19,Turkey,Paraguay,0,1,1
+2026-06-20,Netherlands,Sweden,5,1,1
+2026-06-20,Germany,Ivory Coast,2,1,1
+2026-06-20,Ecuador,Curacao,0,0,1
+2026-06-21,Tunisia,Japan,0,4,1
+2026-06-21,Spain,Saudi Arabia,4,0,1
+2026-06-21,Belgium,Iran,0,0,1
+2026-06-21,Uruguay,Cape Verde,2,2,1
+2026-06-21,New Zealand,Egypt,1,3,1,6.50,3.60,1.61
+2026-06-22,Argentina,Austria,2,0,1,1.53,4.20,7.00
+2026-06-22,Norway,Senegal,3,2,1,2.25,3.55,3.20
+2026-06-22,France,Iraq,3,0,1,1.08,12.00,31.00
+2026-06-22,Jordan,Algeria,1,2,1,6.00,4.30,1.56
+2026-06-23,Portugal,Uzbekistan,5,0,1,1.20,7.00,15.00
+2026-06-23,England,Ghana,0,0,1,1.22,6.50,14.00
+2026-06-23,Panama,Croatia,0,1,1,6.50,4.10,1.54
+2026-06-23,Colombia,DR Congo,1,0,1,1.51,4.20,7.00
+2026-06-24,Canada,Switzerland,1,2,0,3.20,3.10,2.45
+2026-06-24,Bosnia and Herzegovina,Qatar,3,1,1,1.43,5.00,7.00
+2026-06-24,Scotland,Brazil,0,3,1,7.00,5.25,1.41
+2026-06-24,Morocco,Haiti,4,2,1,1.19,7.00,16.00
+2026-06-24,Mexico,Czechia,3,0,0,1.95,3.90,3.70
+2026-06-24,South Africa,South Korea,1,0,1,5.75,4.00,1.62
+2026-06-25,Curacao,Ivory Coast,0,2,1,18.00,8.50,1.15
+2026-06-25,Ecuador,Germany,2,1,1,3.60,3.90,1.95
+2026-06-25,Tunisia,Netherlands,1,3,1,20.00,9.00,1.13
+2026-06-25,Japan,Sweden,1,1,1,1.95,3.45,4.20
+2026-06-25,USA,Turkey,2,3,0,2.00,4.00,3.45
+2026-06-25,Paraguay,Australia,0,0,1,2.90,2.25,3.95
