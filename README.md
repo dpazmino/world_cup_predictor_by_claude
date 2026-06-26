@@ -1,5 +1,10 @@
 # World Cup 2026 — Predictor & Match Simulator
 
+# I in no way worked with Jerry Chen and his model.  https://github.com/Hicruben/world-cup-2026-prediction-model.  Believe it or not, two claudes from different spaces came up with very good predictors.  My results are under https://github.com/dpazmino/wc/tree/master.  You can see through the commit history that the predictions are real https://github.com/dpazmino/wc/blob/master/MODEL_PERFORMANCE.md.
+
+The best way to use this is to load the whole thing into claude and do a /init.  This will load everything into memory and then just ask claude for predictions.
+
+
 Two independent engines for the 2026 FIFA World Cup:
 
 1. **A strength-based match predictor** (`predict.py`, `tournament.py`) — instant, analytic
