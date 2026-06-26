@@ -1,6 +1,9 @@
 # Secrets
 .env
 
+# Private betting ledger
+data/bets.csv
+
 # Python caches
 __pycache__/
 *.pyc
