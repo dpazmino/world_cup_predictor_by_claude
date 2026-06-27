@@ -20,6 +20,16 @@ HIST = {
     ("Belgium", "Egypt"): (-170, 295, 475),
     ("Iran", "New Zealand"): (-105, 240, 330),
     ("Sweden", "Tunisia"): (-105, 245, 310),
+    # Round of 32 (DK closing moneylines, home/draw/away). Auto-fill once played.
+    ("South Africa", "Canada"): (425, 255, -135),
+    ("Brazil", "Japan"): (-140, 285, 400),
+    ("Germany", "Paraguay"): (-265, 400, 750),
+    ("Netherlands", "Morocco"): (110, 225, 280),
+    ("Ivory Coast", "Norway"): (265, 250, 105),
+    ("France", "Sweden"): (-330, 475, 900),
+    ("USA", "Bosnia and Herzegovina"): (-255, 390, 750),
+    ("Australia", "Egypt"): (225, 200, 150),
+    ("Argentina", "Cape Verde"): (-650, 700, 1800),
 }
 
 
