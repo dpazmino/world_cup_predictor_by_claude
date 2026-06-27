@@ -7,6 +7,9 @@ data/results.csv as games finish. Flat 1-unit stakes. Reports three strategies:
   all       — bet the model's pick every game (baseline)
   rule      — bet only when the DK price on the pick is -127 or longer (BE <= 56%)
   model_ev  — bet only when model prob > the price's break-even (true +EV)
+  turtle    — plus-money picks (decimal >= 2.0) on non-thin squads: the model's
+              favourite that the market has as an underdog (asymmetric payoff,
+              "slight lean" disagreement). See docs/TURTLE_BACKTEST.md.
 
 Run any time: it adds new fixtures from odds.txt, grades played ones, rewrites
 docs/BET_TRACKER.md. Drop fresh lines in downloads/odds.txt + log results to keep
@@ -16,11 +19,19 @@ import csv
 import os
 import datetime
 from compare_odds import parse, model_probs, am2dec, ODDS
-from match_engine.ratings import canonical_name
+from match_engine.ratings import canonical_name, team_rating
 import tournament as T
 
 LEDGER = os.path.join("data", "bets.csv")
 BE_RULE = 0.56                       # price -127 -> break-even 55.95%
+PLUS_MONEY = 2.0                     # decimal >= 2.0 == American +100 or longer
+THIN = 11                            # < 11 rated players => low-confidence squad
+
+
+def is_turtle(b):
+    """Plus-money pick (model's favourite that the market makes an underdog) on a
+    squad we actually cover — the asymmetric-payoff 'slight lean' rule."""
+    return float(b["decimal"]) >= PLUS_MONEY and team_rating(b["pick"])["n"] >= THIN
 FIELD = {t for ts in T.GROUPS_2026.values() for t in ts}
 COLS = ["home", "away", "kickoff", "pick", "american", "decimal", "breakeven",
         "model_prob", "ev", "meets_rule", "result", "pnl"]
@@ -138,15 +149,18 @@ def report(ledger):
     bets = list(ledger.values())
     rule = [b for b in bets if b["meets_rule"] == "True"]
     evp = [b for b in bets if float(b["ev"]) > 0]
+    turtle = [b for b in bets if is_turtle(b)]
     today = datetime.date.today().isoformat()
     o = [f"# Prospective Bet Tracker — model picks vs DraftKings\n",
          f"*Updated {today}. Flat 1-unit stakes; draw = loss (3-way moneyline). Picks + "
-         "prices locked before kickoff. Three strategies: **all** picks · **rule** (DK price "
-         "−127 or longer, BE ≤ 56%) · **model_ev** (model prob > break-even). PnL in units.*\n",
+         "prices locked before kickoff. Four strategies: **all** picks · **rule** (DK price "
+         "−127 or longer, BE ≤ 56%) · **model_ev** (model prob > break-even) · **turtle** "
+         "(plus-money pick on a covered squad — asymmetric payoff). PnL in units.*\n",
          "## Running record\n",
          "| Strategy | Bets | Record | Net (u) | ROI | Win% | Avg BE% | Pending |",
          "|---|--:|:--:|--:|--:|--:|--:|--:|"]
-    for name, sel in (("all", bets), ("rule (≤−127)", rule), ("model_ev", evp)):
+    for name, sel in (("all", bets), ("rule (≤−127)", rule), ("model_ev", evp),
+                      ("turtle (plus-$)", turtle)):
         w, l, n, net, roi, wr, be, pend = strat_stats(sel)
         o.append(f"| {name} | {n} | {w}-{l} | {net:+.2f} | {roi:+.1f}% | {wr:.0f}% | "
                  f"{be:.0f}% | {pend} |")
