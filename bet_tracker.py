@@ -106,6 +106,34 @@ def strat_stats(bets):
     return wins, staked - wins, staked, net, roi, wr, be, pend
 
 
+def category_table(o, bets):
+    """Bucket graded bets by the model's locked confidence tier and show whether
+    higher confidence actually converts to profit. Tiers mirror predict._verdict
+    (thresholds on the favourite's win prob)."""
+    graded = [b for b in bets if b["result"] in ("win", "loss")]
+    tiers = [("Coin flip", "<40%", 0.0, 0.40),
+             ("Slight lean", "40–50%", 0.40, 0.50),
+             ("Favoured", "50–62%", 0.50, 0.62),
+             ("Clear favourite", "62–74%", 0.62, 0.74),
+             ("Strong favourite", "≥74%", 0.74, 1.01)]
+    o.append("\n## By model confidence tier (graded bets)\n")
+    o.append("*Every graded bet bucketed by the model's **locked pre-kickoff** win prob on its "
+             "pick (no recompute = no leakage). Backing the favourite flat, draw = loss. The "
+             "question: does higher model confidence convert to profit, or just to a higher hit "
+             "rate at shorter prices?*\n")
+    o.append("| Tier | Fav prob | Bets | W-L | Win% | Net (u) | ROI |")
+    o.append("|---|---|--:|:--:|--:|--:|--:|")
+    for name, lab, lo, hi in tiers:
+        sel = [b for b in graded if lo <= float(b["model_prob"]) < hi]
+        if not sel:
+            continue
+        w = sum(1 for b in sel if b["result"] == "win")
+        n = len(sel)
+        net = sum(float(b["pnl"]) for b in sel)
+        o.append(f"| {name} | {lab} | {n} | {w}-{n-w} | {100*w/n:.0f}% | {net:+.2f} | "
+                 f"{100*net/n:+.1f}% |")
+
+
 def report(ledger):
     bets = list(ledger.values())
     rule = [b for b in bets if b["meets_rule"] == "True"]
@@ -122,6 +150,8 @@ def report(ledger):
         w, l, n, net, roi, wr, be, pend = strat_stats(sel)
         o.append(f"| {name} | {n} | {w}-{l} | {net:+.2f} | {roi:+.1f}% | {wr:.0f}% | "
                  f"{be:.0f}% | {pend} |")
+
+    category_table(o, bets)
 
     def tbl(title, rowsel):
         o.append(f"\n## {title}\n")
