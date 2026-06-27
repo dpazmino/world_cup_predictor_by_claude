@@ -193,6 +193,21 @@ Supporting pieces:
   and emits a prioritised development plan (mental/nutrition treated as enablers, not skill gaps).
   Writes `docs/academy_gap_sample_cb.md`.
 
+**Coach / tactical-style analysis** (descriptive tactical lens — **not** on the prediction path):
+- `coach_matchup.py` — scores each of the 59 teams' tactical profiles (`team_tactics.py` style
+  fields, *not* the situational coach-prompt boilerplate) on five keyword axes — press height,
+  directness, width, counter focus, set-piece threat — and surfaces the **style clashes** between
+  two sides (high press vs low block, direct vs high line, set-piece edge, two low blocks…). CLI:
+  `python coach_matchup.py France Brazil` for one pairing, or bare to write
+  `docs/COACH_MATCHUPS_R32.md` (the R32 slate). Purely descriptive — explains *how* a tie is
+  fought, for the narrative sim; never *who wins*.
+- `coach_clash.py` — the **falsification test** for the above: turns the clash scores into a single
+  signed home-advantage scalar and runs it through the same leak-free walk-forward harness as
+  `player_match`/`psycho_stress` (CV-tuned logit shift). **Verdict: NO out-of-sample edge** (65 WC
+  games, in-sample best K=0; both directions worsen RPS) — scalar team strength already absorbs it,
+  same null as the full sim (`docs/GAP_ANALYSIS.md`). Run `python coach_clash.py`; re-run as games
+  accumulate.
+
 **Generated report files (markdown, checked in):** these are human-readable *outputs* of
 the prediction tools, not inputs — regenerate them from the tools rather than hand-editing.
 **All of these live in `docs/`** (filenames below are relative to it); the generator scripts
