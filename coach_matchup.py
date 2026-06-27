@@ -169,11 +169,13 @@ def write_r32():
          "`team_tactics.py` / `coach_prompts.py` (transparent keyword counts on five axes: "
          "press height, directness, width, counter focus, set-piece threat).*",
          "",
-         "> ⚠ **Descriptive, not predictive.** This is a tactical lens for the narrative "
-         "simulation — it explains *how* a game might be fought, not who wins. The full sim "
-         "models all of this and adds ~0 over scalar team strength (`docs/GAP_ANALYSIS.md`), "
-         "and unit style-matchups showed no out-of-sample edge (`player_match/`). For who "
-         "advances, use `predict.py` / `docs/predictions_r32.md`.",
+         "> ⚠ **Descriptive, not predictive — tested and confirmed.** This is a tactical lens "
+         "for the narrative simulation: it explains *how* a game might be fought, not who wins. "
+         "A walk-forward test (`coach_clash.py`) found a tactical-clash signal adds **no "
+         "out-of-sample predictive value** (in-sample best weight = 0; both directions hurt) — "
+         "the same null as the full sim (`docs/GAP_ANALYSIS.md`) and unit style-matchups "
+         "(`player_match/`). Scalar team strength already absorbs it. For who advances, use "
+         "`predict.py` / `docs/predictions_r32.md`.",
          ""]
     for a, b in R32:
         o.append(render(a, b))
