@@ -231,6 +231,14 @@ strength already absorbs the signal. Re-run as games accumulate. See [[psycho-st
   travel, altitude, crowd) via a logit shift. Own `README.md`, `data/`, and `evaluate.py`.
 - `player_match/` — tests whether unit-vs-unit **style mismatches** (from the `downloads/p2.txt`
   framework, restricted to the attributes we have) add value beyond the scalar strength gap.
+- `latent_factor/` — **matrix-factorization / collaborative-filtering**: learns k-dimensional
+  latent attack/defence vectors per team and isolates the bilinear *interaction residual*
+  (the non-transitive matchup term rank-1 Elo can't represent; k=0 ⇒ no shift). Fit
+  **leak-free walk-forward** (`signal.py`); estimator validated on synthetic data (recovers
+  known structure, corr≈0.95) so the null is real, not under-fitting. Verdict: NO edge — the
+  same null as Dixon–Coles (=2-factor MF) ≈ Elo; sparse international data (~5-10 games/team)
+  can't estimate reliable per-team vectors. Run `python -m latent_factor.evaluate --all`. Its
+  real payoff path is as a **better Elo seed from dense club data**, not a sparse-data predictor.
 
 **Coach / tactical-style analysis** (descriptive tactical lens — **not** on the prediction path):
 - `coach_matchup.py` — scores each of the 59 teams' tactical profiles (`team_tactics.py` style
