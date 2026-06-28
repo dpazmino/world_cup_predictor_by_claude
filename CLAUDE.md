@@ -2,6 +2,30 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Start here
+
+This repo is two loosely-coupled things that share data and `match_engine/`. Don't conflate them:
+
+1. **The match simulator** (`run_match.py`, `calibrate.py`) — a multi-agent LLM engine that
+   generates believable *match narratives* (commentary, events, box scores). LLM agents choose
+   *intent*; `resolution.py` decides *outcomes*. Validated for box-score realism, **not** prediction.
+2. **The match predictor** (`predict.py`, `tournament.py`) — a pure analytic strength model
+   (regularised Elo + Poisson, no Monte-Carlo, no API key). This is the production forecast path.
+
+The four things to internalise before changing anything:
+- **Prediction ≠ simulation.** The sim has ~zero predictive weight (proven by `backtest.py --cv`;
+  see `docs/GAP_ANALYSIS.md`) and was deliberately removed from the prediction path. Don't wire it back.
+- **`backtest.py` is the source of truth for prediction accuracy** (RPS/Brier/log-loss, walk-forward,
+  leak-free). `calibrate.py` is the source of truth for *simulation realism*. They measure different things.
+- **The betting market beats the model.** When odds exist they dominate (`--odds` anchoring); the only
+  place the model can have edge is where it and DK disagree on the favourite (`docs/MODEL_VS_DRAFTKINGS.md`).
+- **Tuning is earned, not guessed.** After touching probabilities or adding data, re-run the relevant
+  harness (`backtest.py --cv` for prediction, `calibrate.py` for realism) — there is no cache to rebuild.
+
+Multiple augmentation experiments (sim weight, coach-clash, psycho-stress, player-match, turtle filter)
+have all returned the **same null**: scalar team strength already absorbs the signal. Assume new
+"clever" features will too until a leak-free walk-forward backtest says otherwise.
+
 ## Running the Project
 
 ```bash
@@ -186,12 +210,27 @@ Supporting pieces:
   (DK price −127 or longer) / `model_ev` (model prob > break-even). See [[model-vs-draftkings-tracker]].
 - `gen_remaining_preds.py` — predicts the remaining group fixtures listed in `downloads/preds.txt`;
   writes `docs/predictions_remaining_group_stage.md`.
+- `backtest_turtle.py` — leak-free walk-forward backtest of the **"turtle" filter**: back only
+  plus-money underdogs the model rates above the market (asymmetric payoff — one winner covers
+  two losers), filtered to genuinely-strong-but-under-covered sides to avoid the model's
+  longshot diffuseness. Scores against flat-favourite/flat-underdog baselines; no API key, no
+  simulation. Writes `docs/TURTLE_BACKTEST.md`. Thesis from `docs/MODEL_PERFORMANCE.md` §5/§7.
 
 **Academy player development** (a separate feature, off the WC-prediction path):
 - `academy_gap.py` — ingests an academy player's 1–10 assessment, maps technical/tactical/physical
   sub-skills onto the FIFA-6 attributes in `player_stats.csv`, benchmarks against position peers,
   and emits a prioritised development plan (mental/nutrition treated as enablers, not skill gaps).
   Writes `docs/academy_gap_sample_cb.md`.
+
+**Isolated prediction-augmentation experiments** (each a self-contained package that imports
+`predict.py` / `match_engine` / `backtest.py` **read-only** and post-processes their output —
+production prediction code is untouched; verified by re-running `pytest`/`backtest.py`). Both
+reached the **same null verdict as the full sim** — NO out-of-sample edge, because scalar team
+strength already absorbs the signal. Re-run as games accumulate. See [[psycho-stress-experiment]].
+- `psycho_stress/` — augments strength with environmental + perceptual match stress (heat,
+  travel, altitude, crowd) via a logit shift. Own `README.md`, `data/`, and `evaluate.py`.
+- `player_match/` — tests whether unit-vs-unit **style mismatches** (from the `downloads/p2.txt`
+  framework, restricted to the attributes we have) add value beyond the scalar strength gap.
 
 **Coach / tactical-style analysis** (descriptive tactical lens — **not** on the prediction path):
 - `coach_matchup.py` — scores each of the 59 teams' tactical profiles (`team_tactics.py` style
@@ -230,6 +269,11 @@ write there. Only `CLAUDE.md` stays in the repo root.
   against the model.
 - `predictions_<date>.md` — per-matchday `predict.py` slates (neutral venue, DraftKings
   moneyline de-vigged and anchored 50/50).
+- `predictions_<round>.md` (e.g. `predictions_r32.md`) — knockout-round slates from
+  `gen_ko_preds.py <round>` (or bare for every round with fixtures). Pure strength model, no
+  market anchoring; headline metric is P(advance) = P(win) + 0.5·P(draw); hosts (USA/Mexico/
+  Canada) get Elo home advantage. Fill in each round's fixtures in the script as the bracket
+  resolves. See [[wc2026-r32-prediction-docs]].
 - `RESULTS_TRACKER.md` — walk-forward predicted-vs-actual scorecard (W/D/L, pick, Brier) for
   logged 2026 results; the accuracy log behind [[wc2026-result-logging]].
 - `MODEL_VS_DRAFTKINGS.md` — disagreement tracker isolating games where the model and DK pick
@@ -247,6 +291,12 @@ write there. Only `CLAUDE.md` stays in the repo root.
 - `BET_TRACKER.md` / `MODEL_VS_DK_ODDS_<date>.md` — written by `bet_tracker.py` / `compare_odds.py`
   (see the betting workflow above).
 - `academy_gap_sample_cb.md` — written by `academy_gap.py` (academy-development feature, not WC prediction).
+- `GAP_ANALYSIS.md` / `PREDICTION_IMPROVEMENT_GAP.md` — hand-written analysis (not tool output).
+  The first inventories production-readiness and documents the sim's zero predictive weight; the
+  second is the evidence-ranked companion asking *what would measurably raise accuracy* given the
+  live track record + the five completed augmentation experiments. `MEDIUM_ARTICLE.md` is the
+  narrative writeup / honest scorecard.
+- `TURTLE_BACKTEST.md` — written by `backtest_turtle.py` (underdog value-filter backtest).
 
 **Neutral venue:** `predict.py` defaults to a neutral venue (no home advantage). Elo
 handles venue directly — `--home` adds `HFA` Elo points to the first team. World Cup
@@ -275,7 +325,7 @@ This is a multi-agent World Cup match simulator. LLM agents decide *what* to do;
 
 ### One Play Cycle (in `match_engine/match_simulation.py`)
 
-1. **Ball-holder decision** (`player_agent.py:decide_with_ball`) — LLM chooses shoot/pass/dribble/cross
+1. **Ball-holder decision** (`player_agent.py:decide_with_ball`) — LLM chooses shoot/pass/dribble/cross; the deterministic `player_mind.py` mental state shapes both the prompt (a mindset cue) and the rule policy's risk multiplier
 2. **Validation** (`evaluator_agent.py`) — catches hallucinations (CB shooting from 80m, non-existent pass targets)
 3. **Off-ball repositioning** (`player_agent.py:reposition_all_parallel`) — 20+ players repositioned via `ThreadPoolExecutor`; fast-mode skips LLM and uses role-based rules
 4. **Resolution** (`resolution.py:resolve_action`) — pure-Python physics: pass completion probability, shot on-target rate, keeper save rate; no LLM
@@ -303,6 +353,7 @@ This is a multi-agent World Cup match simulator. LLM agents decide *what* to do;
 | `match_engine/team_tactics.py` | ~51 team tactical profiles (shoot/pass/press/width rules) injected into player prompts |
 | `match_engine/stats_loader.py` | CSV loader; normalizes ratings to skill floats |
 | `match_engine/player_skills.py` | Role-based skill baselines + keyword extraction from prompts → 0–1 modifiers for `resolution.py` (no LLM) |
+| `match_engine/player_mind.py` | Deterministic per-player mental model (composure, risk tolerance, situational pressure, confidence/frustration). No LLM — keyword+state driven (p2.txt §6-9). Wired into the sim: `init_mind` (match start), `risk_modifier`/`mental_line` (injected into the ball-holder prompt + rule policy), `update_mind` (after each play). Centred on 1.0 at neutral state, so default calibration is unchanged. |
 | `match_engine/agents/base_agent.py` | `llm_call()` (JSON) and `llm_text()` with retry logic |
 | `match_engine/agents/player_agent.py` | Per-player decision-making and parallel repositioning |
 | `match_engine/agents/coach_agent.py` | Deterministic starting XI selection and formation assignment |
