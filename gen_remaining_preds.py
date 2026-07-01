@@ -1,5 +1,6 @@
-"""Generate predictions for the remaining group-stage fixtures (downloads/preds.txt)
-into one markdown file. Pure strength model (shrink 0.25); host nations (USA/Mexico/
+"""Generate predictions for the remaining group-stage fixtures into one markdown file.
+Fixtures come from the hard-coded `FIXTURES` list below (no external paste); games already
+in data/results.csv are skipped. Pure strength model (shrink 0.25); host nations (USA/Mexico/
 Canada) get home advantage in their group games, otherwise neutral venue.
 """
 from predict import predict
@@ -128,8 +129,8 @@ def main():
         label = f"{h} vs {a}" + (f"  ·_{host}_" if host else "")
         out.append(f"| {grp} | {label} | {ph*100:.0f} / {pd*100:.0f} / {pa*100:.0f} | "
                    f"{xh:.1f}–{xa:.1f} | {verdict(h, a, ph, pd, pa)} |")
-    out.append("\n*Reproduce: `python gen_remaining_preds.py` (reads `downloads/preds.txt` "
-               "fixtures; skips games already played). Host advantage per `tournament.py`.*")
+    out.append("\n*Reproduce: `python gen_remaining_preds.py` (fixtures from the hard-coded "
+               "`FIXTURES` list; skips games already played). Host advantage per `tournament.py`.*")
     with open("docs/predictions_remaining_group_stage.md", "w", encoding="utf-8") as f:
         f.write("\n".join(out) + "\n")
     print(f"Wrote docs/predictions_remaining_group_stage.md "

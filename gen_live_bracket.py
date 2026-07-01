@@ -11,6 +11,14 @@ import sys
 from collections import defaultdict
 import tournament as T
 
+# Knockout shootout advancers — the game is logged as a draw (correct for Elo), so the
+# pens winner can't be inferred from results.csv and the coin-flip would otherwise pick the
+# model favourite. Force the real advancer through. Keyed by frozenset of the two teams.
+SHOOTOUT_ADV = {
+    frozenset(("Germany", "Paraguay")): "Paraguay",       # R32: 1-1, Paraguay 4-3 pen
+    frozenset(("Netherlands", "Morocco")): "Morocco",     # R32: 1-1, Morocco 3-2 pen
+}
+
 
 def nid(prefix, name):
     return prefix + name.replace(" ", "_").replace("'", "")
@@ -54,6 +62,9 @@ def main(n=60000, seed=0):
         return gwn[key] if kind == "W" else grn[key] if kind == "RU" else slot_team[key]
 
     def play(a, b):
+        forced = SHOOTOUT_ADV.get(frozenset((a, b)))
+        if forced is not None:
+            return forced
         res = played.get(frozenset((a, b)))
         if res is not None and res[a] != res[b]:
             return a if res[a] > res[b] else b

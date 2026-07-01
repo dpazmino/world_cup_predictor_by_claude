@@ -1,4 +1,4 @@
-"""Compare DraftKings 'Stage of Elimination' props (downloads/elim.txt) to the
+"""Compare DraftKings 'Stage of Elimination' props (~/Downloads/elim.txt) to the
 model's live elimination distribution, and surface +EV edges.
 
 De-vigs each 7-way market, maps stages 1:1 to the model, and flags bets where the
@@ -97,7 +97,7 @@ def main():
     o = []
     o.append("# Model vs DraftKings — Stage-of-Elimination Props\n")
     o.append(f"*Generated {today}. DraftKings 7-way 'Stage of Elimination' markets "
-             "(`downloads/elim.txt`, a fixed pre-tournament snapshot) de-vigged and compared to "
+             "(`~/Downloads/elim.txt`, a fixed pre-tournament snapshot) de-vigged and compared to "
              f"the model's live elimination distribution ({N:,} MC, {len(played)} results "
              "locked). Stages map 1:1 (Last 32→R32, Runner-Up→Final, Outright Winner→Champion). "
              "**Only teams yet to kick off are scored** — once a team plays, its pre-game line "
@@ -110,7 +110,7 @@ def main():
                  f"carry a usable DK line ({clean_names}). The thesis bets this screen surfaced "
                  "— **Ghana** and **DR Congo** — have kicked off (Ghana won 1-0 vs Panama, DR "
                  "Congo drew Portugal 1-1) and are now tracked live in `MODEL_VS_DRAFTKINGS.md`. "
-                 "This report adds little until fresh DK lines replace `downloads/elim.txt`.\n")
+                 "This report adds little until fresh DK lines replace `~/Downloads/elim.txt`.\n")
 
     o.append("## Headline: the model is more *diffuse* than the market\n")
     o.append("The model pushes probability into the **tails** more than DraftKings does, so it "
@@ -165,7 +165,7 @@ def main():
     o.append("- Teams that have already played are excluded (stale lines).")
     o.append("- 'Credible' edges are the thesis under test (n tiny); the market may simply know "
              "these squads are weaker than their rating.")
-    o.append(f"\n*Reproduce: `python compare_elim.py` (reads `downloads/elim.txt`, live n={N}).*")
+    o.append(f"\n*Reproduce: `python compare_elim.py` (reads `~/Downloads/elim.txt`, live n={N}).*")
 
     with open("docs/MODEL_VS_DK_ELIMINATION.md", "w", encoding="utf-8") as f:
         f.write("\n".join(o) + "\n")

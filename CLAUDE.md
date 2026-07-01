@@ -199,17 +199,30 @@ Supporting pieces:
 - `tests/test_prediction.py` — pytest suite (18 tests) for odds, Elo, calibration, scoring
   metrics, predict, Dixon–Coles, and tournament conservation. Run: `python -m pytest tests/ -q`.
 
-**Betting / market-edge workflow** (all read raw DraftKings text dropped into `downloads/`):
+**Betting / market-edge workflow** (the DK-paste tools read raw DraftKings text from the
+**user's home `~/Downloads/`** — `odds.txt` / `advance.txt` / `elim.txt` — *not* the repo's
+`downloads/`; some docstrings still say `downloads/`, trust the code / this list):
 - `apply_odds.py` — merges DK closing American moneylines into `data/results.csv` columns 7–9
-  (the de-vigged market benchmark the backtest scores against). One-off ingest helper.
-- `compare_odds.py` — parses `downloads/odds.txt`, de-vigs, and diffs DK vs the model; writes
-  `docs/MODEL_VS_DK_ODDS_<date>.md`.
+  (the de-vigged market benchmark the backtest scores against). Reads `~/Downloads/odds.txt`
+  (imports `ODDS` from `compare_odds`) plus an inline `HIST` table of early lines. One-off ingest helper.
+- `compare_odds.py` — parses `~/Downloads/odds.txt`, de-vigs, and diffs DK vs the model's
+  **3-way (90-min) moneyline**; writes `docs/MODEL_VS_DK_ODDS_<date>.md`.
+- `compare_advance.py` — the **knockout** analogue: reads DK's 2-way "To Qualify"
+  (`~/Downloads/advance.txt`), de-vigs, and diffs against the model's **P(advance) =
+  P(win)+½·P(draw)** (reusing `gen_ko_preds.host_side`/`oriented` so hosts get HFA and the
+  metric matches `predictions_<round>.md`). Model is left **un-anchored** so any edge is real;
+  only favourite disagreements count as edge (across-the-board underdog +EV is the model's
+  known diffuseness, flagged separately). Writes `docs/MODEL_VS_DK_R32_ADVANCE.md`; re-run per
+  round. Grade on advancement, not 90-min W/D/L. See [[wc2026-knockout-logging]].
 - `bet_tracker.py` — prospective forward-test of the betting rules: locks each model pick + DK
   price **before kickoff** into `data/bets.csv` (the persisted ledger), grades against
   `data/results.csv`, and writes `docs/BET_TRACKER.md`. Three strategies: `all` / `rule`
-  (DK price −127 or longer) / `model_ev` (model prob > break-even). See [[model-vs-draftkings-tracker]].
-- `gen_remaining_preds.py` — predicts the remaining group fixtures listed in `downloads/preds.txt`;
-  writes `docs/predictions_remaining_group_stage.md`.
+  (DK price −127 or longer) / `model_ev` (model prob > break-even). Reads `~/Downloads/odds.txt`
+  (via `compare_odds.ODDS`). See [[model-vs-draftkings-tracker]].
+- `gen_remaining_preds.py` — predicts the remaining group fixtures (model-only, no DK paste).
+  Fixtures are a hard-coded `FIXTURES` list in the script; it reads `data/results.csv` only to
+  skip already-played games. Writes `docs/predictions_remaining_group_stage.md`. (Its docstring's
+  `downloads/preds.txt` reference is stale — no such file is read.)
 - `backtest_turtle.py` — leak-free walk-forward backtest of the **"turtle" filter**: back only
   plus-money underdogs the model rates above the market (asymmetric payoff — one winner covers
   two losers), filtered to genuinely-strong-but-under-covered sides to avoid the model's
@@ -268,8 +281,11 @@ write there. Only `CLAUDE.md` stays in the repo root.
   stdout — these two markdown files are written by `gen_live_forecast.py` (pre+live 100k runs
   → the `pre → live` qualify table) and `gen_live_bracket.py` (the deterministic most-likely
   projection: group winner by P(1st), 2nd/3rd by P(qualify), 8 best thirds fit to FIFA's slot
-  table via `tournament._assign_thirds`, favourite advances). Re-run both after logging new
-  live results to refresh the files.
+  table via `tournament._assign_thirds`, favourite advances). Because a knockout won on
+  penalties is logged as a draw (correct for Elo), the real pens winner can't be inferred
+  from the score — `gen_live_bracket.py` hard-codes those advancers in its `SHOOTOUT_ADV`
+  map so the coin-flip doesn't default to the model favourite; add each new shootout there.
+  Re-run both after logging new live results to refresh the files.
 - `WORLD_CUP_2026_ELIMINATION.md` — per-team **stage-of-elimination distribution** (Group/R32/
   R16/QF/SF/Final/Champion exit probabilities, summing to ~100%), written by
   `gen_elimination_table.py` from the live run. Derived as consecutive differences of the
@@ -288,7 +304,7 @@ write there. Only `CLAUDE.md` stays in the repo root.
   different favourites (the only place a moneyline edge can exist), plus an elimination-market
   edge-test section; behind [[model-vs-draftkings-tracker]].
 - `MODEL_VS_DK_ELIMINATION.md` — written by `compare_elim.py`, which reads DraftKings 7-way
-  "stage of elimination" props from `downloads/elim.txt`, de-vigs them, and screens against the
+  "stage of elimination" props from `~/Downloads/elim.txt`, de-vigs them, and screens against the
   model's live elimination distribution. Key caveat surfaced by the tool: the model's exit
   distribution is **more diffuse** than the market, so most nominal +EV is miscalibration, not
   edge — only under-covered-but-strong sides (the Ivory Coast profile) are flagged as real.

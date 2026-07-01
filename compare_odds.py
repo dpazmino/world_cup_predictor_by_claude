@@ -1,4 +1,4 @@
-"""Parse DraftKings moneylines (downloads/odds.txt), compare to the model, and
+"""Parse DraftKings moneylines (~/Downloads/odds.txt), compare to the model, and
 flag favourite-disagreements — the edge candidates for MODEL_VS_DRAFTKINGS.md.
 
 Each odds block has two `<team>-logo` lines (home, away) and three American-odds
@@ -67,8 +67,8 @@ def main():
             disagree.append((h, a, ph, pa, dh, da, mfav, dfav))
 
     today = datetime.date.today().isoformat()
-    o = [f"# Model vs DraftKings — moneylines, remaining group stage\n",
-         f"*Generated {today}. DK 3-way moneylines from `downloads/odds.txt` ({len(rows)} "
+    o = [f"# Model vs DraftKings — 3-way (90-min) moneylines\n",
+         f"*Generated {today}. DK 3-way moneylines from `~/Downloads/odds.txt` ({len(rows)} "
          "fixtures), de-vigged and compared to the strength model (host advantage for "
          "USA/Mexico/Canada). `Anchored` = 50/50 blend of model and de-vigged market. "
          "W/D/L = home / draw / away %.*\n",
@@ -97,10 +97,6 @@ def main():
     print(f"Wrote {out} — {len(rows)} fixtures, {len(disagree)} favourite-disagreement(s)")
     for h, a, ph, pa, dh, da, mfav, dfav in disagree:
         print(f"  DISAGREE: {h} v {a} — model {mfav} {max(ph,pa)*100:.0f}% / DK {dfav} {max(dh,da)*100:.0f}%")
-
-
-if __name__ == "__main__":
-    main()
 
 
 if __name__ == "__main__":

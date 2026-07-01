@@ -12,7 +12,7 @@ data/results.csv as games finish. Flat 1-unit stakes. Reports three strategies:
               "slight lean" disagreement). See docs/TURTLE_BACKTEST.md.
 
 Run any time: it adds new fixtures from odds.txt, grades played ones, rewrites
-docs/BET_TRACKER.md. Drop fresh lines in downloads/odds.txt + log results to keep
+docs/BET_TRACKER.md. Drop fresh lines in ~/Downloads/odds.txt + log results to keep
 it current.
 """
 import csv
@@ -184,7 +184,7 @@ def report(ledger):
     if graded:
         tbl(f"Graded ({len(graded)})", graded)
     tbl(f"Pending ({len(pending)})", pending)
-    o.append("\n*Reproduce: `python bet_tracker.py` (reads downloads/odds.txt + "
+    o.append("\n*Reproduce: `python bet_tracker.py` (reads ~/Downloads/odds.txt + "
              "data/results.csv; ledger in data/bets.csv).*")
     out = os.path.join("docs", "BET_TRACKER.md")
     with open(out, "w", encoding="utf-8") as f:

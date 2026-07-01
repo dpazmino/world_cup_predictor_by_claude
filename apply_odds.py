@@ -1,7 +1,7 @@
 """Merge DraftKings closing moneylines into data/results.csv columns 7-9
 (decimal home, draw, away) for played 2026 WC games.
 
-Sources: HIST (American lines the user provided for early games) + downloads/
+Sources: HIST (American lines the user provided for early games) + ~/Downloads/
 odds.txt (the rolling slate). Matches by team pair, fixes home/away orientation
 to the row's order, skips rows that already carry odds, leaves history untouched.
 Re-run after logging results / refreshing odds.txt to fill newly-played games.
