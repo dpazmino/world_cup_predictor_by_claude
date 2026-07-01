@@ -7,9 +7,11 @@ _assign_thirds) and pairwise win probs. Group winner = most-likely (P finish 1st
 FIFA's slot table; knockout = favourite (higher P(win)) advances, decisive played
 knockout results locked. Prints the full markdown to stdout.
 """
+import datetime
 import sys
-from collections import defaultdict
 import tournament as T
+from gen_ko_preds import ROUNDS as _KO_ROUNDS
+from match_engine.ratings import canonical_name
 
 # Knockout shootout advancers — the game is logged as a draw (correct for Elo), so the
 # pens winner can't be inferred from results.csv and the coin-flip would otherwise pick the
@@ -24,6 +26,42 @@ def nid(prefix, name):
     return prefix + name.replace(" ", "_").replace("'", "")
 
 
+def _actual_r32_fixtures():
+    """The real Round-of-32 pairings (canonicalised) from gen_ko_preds, or [] if the round
+    isn't seeded yet. These are the source of truth for who actually meets whom."""
+    fixtures = _KO_ROUNDS.get("r32", (None, None, []))[2]
+    return [(canonical_name(h), canonical_name(a)) for h, a, *_ in fixtures]
+
+
+def _actual_group_order(played, groups):
+    """Real per-group ranking [1st,2nd,3rd,4th] from played results (points, then goal
+    difference, then goals for — the same key tournament.simulate ranks by). Returns None for
+    a group whose six games aren't all in yet, so the caller falls back to the MC projection."""
+    order = {}
+    for g, teams in groups.items():
+        st = {t: [0, 0, 0] for t in teams}                 # [points, goal-diff, goals-for]
+        complete = True
+        for i in range(len(teams)):
+            for j in range(i + 1, len(teams)):
+                res = played.get(frozenset((teams[i], teams[j])))
+                if res is None:
+                    complete = False
+                    continue
+                a, b = teams[i], teams[j]
+                ga, gb = res[a], res[b]
+                st[a][1] += ga - gb; st[a][2] += ga
+                st[b][1] += gb - ga; st[b][2] += gb
+                if ga > gb:
+                    st[a][0] += 3
+                elif ga < gb:
+                    st[b][0] += 3
+                else:
+                    st[a][0] += 1; st[b][0] += 1
+        order[g] = (None if not complete
+                    else sorted(teams, key=lambda t: tuple(st[t]), reverse=True))
+    return order
+
+
 def main(n=60000, seed=0):
     played = T._load_played_results(T.GROUPS_2026)
     teams = sorted({t for g in T.GROUPS_2026.values() for t in g})
@@ -35,32 +73,69 @@ def main(n=60000, seed=0):
     gw_p = {t: tally[t]["group_win"] / n for t in teams}
     q_p = {t: tally[t]["qualify"] / n for t in teams}
 
-    # --- Project group standings: winner by P(1st); 2nd/3rd/4th by P(qualify) ---
+    # --- Group standings: use the ACTUAL final table where the group is complete, else the
+    # MC projection (winner by P(1st); 2nd/3rd/4th by P(qualify)). The MC ordering is unreliable
+    # for a finished group — once several teams all qualify with P=1 the 2nd/3rd split is
+    # arbitrary, which then mis-identifies runners-up vs thirds and corrupts the R32 seating. ---
+    real_order = _actual_group_order(played, T.GROUPS_2026)
     order = {}            # group -> [1st,2nd,3rd,4th]
     for g, ts in T.GROUPS_2026.items():
-        winner = max(ts, key=lambda t: gw_p[t])
-        rest = sorted([t for t in ts if t != winner], key=lambda t: q_p[t], reverse=True)
-        order[g] = [winner] + rest
+        if real_order[g] is not None:
+            order[g] = real_order[g]
+        else:
+            winner = max(ts, key=lambda t: gw_p[t])
+            rest = sorted([t for t in ts if t != winner], key=lambda t: q_p[t], reverse=True)
+            order[g] = [winner] + rest
 
-    # --- 8 best thirds by P(qualify), fit to FIFA slot table ---
-    thirds = sorted(((g, order[g][2]) for g in order), key=lambda x: q_p[x[1]], reverse=True)
-    best = thirds[:8]
-    third_group = {g: t for g, t in best}
-    slot_team = T._assign_thirds(third_group)
-    if slot_team is None:
-        sys.exit("slot assignment failed — FIFA table couldn't seat these 8 thirds")
-
-    qualifiers = ({order[g][0] for g in order} | {order[g][1] for g in order}
-                  | {t for _, t in best})
-
-    # --- Deterministic knockout: favourite advances, lock decisive played games ---
+    # --- Group winners / runners-up (deterministic once the groups are complete) ---
     gwn = {g: order[g][0] for g in order}
     grn = {g: order[g][1] for g in order}
 
-    def team_of(spec):
-        kind, key = spec
-        return gwn[key] if kind == "W" else grn[key] if kind == "RU" else slot_team[key]
+    # --- 8 best thirds by P(qualify), fit to FIFA slot table (projection fallback only) ---
+    thirds = sorted(((g, order[g][2]) for g in order), key=lambda x: q_p[x[1]], reverse=True)
+    best = thirds[:8]
+    slot_team = T._assign_thirds({g: t for g, t in best})
 
+    # --- R32 seating: prefer the ACTUAL bracket fixtures over the re-derived template ------
+    # The deterministic third->slot assignment can seat a third-placed team in a valid but
+    # DIFFERENT FIFA slot than reality, mis-pairing its R32 tie — and then a locked/upset
+    # result (e.g. a shootout) lands on the wrong side of the bracket. When the real R32
+    # fixtures are known we seat straight from them: each tie's W/RU anchor is unambiguous and
+    # the third is simply its actual opponent, so pairings, locked results and shootouts all
+    # match reality. Pre-bracket (no fixtures yet) we fall back to the projected slot table.
+    actual = _actual_r32_fixtures()
+    partner = {}
+    for a, b in actual:
+        partner[a], partner[b] = b, a
+
+    def anchor(spec):
+        kind, key = spec
+        return gwn[key] if kind == "W" else grn[key] if kind == "RU" else None
+
+    def r32_pair(mid):
+        sa, sb = T._R32[mid]
+        ta, tb = anchor(sa), anchor(sb)
+        if partner:                                   # seat the third from the real fixture
+            ta = ta if ta is not None else partner.get(tb)
+            tb = tb if tb is not None else partner.get(ta)
+        elif slot_team is not None:                   # pre-bracket: re-derived FIFA template
+            ta = ta if ta is not None else slot_team[sa[1]]
+            tb = tb if tb is not None else slot_team[sb[1]]
+        return ta, tb
+
+    # Validate the actual-fixture seating (name mismatch / stale gwn would corrupt it); on any
+    # inconsistency drop back to the template path rather than emit a broken bracket.
+    parts = [t for mid in T._R32 for t in r32_pair(mid)]
+    if partner and (None in parts or len(set(parts)) != 32):
+        print("WARNING: actual R32 fixtures inconsistent with projected standings — "
+              "falling back to the re-derived FIFA slot table.", file=sys.stderr)
+        partner = {}
+        parts = [t for mid in T._R32 for t in r32_pair(mid)]
+    if None in parts or len(set(parts)) != 32:
+        sys.exit("R32 seating failed — could not seat 32 distinct teams")
+    qualifiers = set(parts)
+
+    # --- Deterministic knockout: favourite advances, lock decisive played games ---
     def play(a, b):
         forced = SHOOTOUT_ADV.get(frozenset((a, b)))
         if forced is not None:
@@ -71,8 +146,8 @@ def main(n=60000, seed=0):
         return a if pair[(a, b)]["adv"] >= 0.5 else b
 
     win = {}
-    for mid, (sa, sb) in T._R32.items():
-        win[mid] = play(team_of(sa), team_of(sb))
+    for mid in T._R32:
+        win[mid] = play(*r32_pair(mid))
     for mid in (89, 90, 91, 92, 93, 94, 95, 96, 97, 98, 99, 100, 101, 102, 104):
         x, y = T._TREE[mid]
         win[mid] = play(win[x], win[y])
@@ -86,8 +161,8 @@ def main(n=60000, seed=0):
     def loser(mid, a, b):
         return b if win[mid] == a else a
 
-    for mid, (sa, sb) in T._R32.items():                       # 16 matches → Last 32 exits
-        stage_of[loser(mid, team_of(sa), team_of(sb))] = "Last 32"
+    for mid in T._R32:                                         # 16 matches → Last 32 exits
+        stage_of[loser(mid, *r32_pair(mid))] = "Last 32"
     round_label = {tuple(range(89, 97)): "Last 16", (97, 98, 99, 100): "Quarter-Finals",
                    (101, 102): "Semi-Finals"}
     for mids, lab in round_label.items():
@@ -100,12 +175,15 @@ def main(n=60000, seed=0):
     # --- Emit markdown ---
     n_played = len(played)
     out = []
+    today = datetime.date.today().isoformat()
+    seat = ("real R32 fixtures (played ties locked to their actual result)" if partner
+            else "the projected FIFA slot table")
     out.append("# 2026 FIFA World Cup — Live Group-to-Bracket Projection\n")
-    out.append(f"*Generated 2026-06-16. Conditioned on the {n_played} results played so far "
+    out.append(f"*Generated {today}. Conditioned on the {n_played} results played so far "
                "(`--live`). Group winner = most-likely group winner (P finish 1st); 2nd/3rd "
-               "ordered by P(qualify); the 8 qualifying thirds are the highest-P(qualify) "
-               "third-placed teams that fit FIFA's slot table. Knockout = official 2026 "
-               "bracket, favourite advances. ✓ = projected to qualify.*\n")
+               f"ordered by P(qualify). Knockout ties are seated from {seat}; the official "
+               "2026 bracket then advances the favourite for unplayed games. ✓ = projected to "
+               "qualify.*\n")
     out.append("```mermaid")
     out.append("flowchart LR")
     out.append("  classDef champ fill:#ffd700,stroke:#b8860b,stroke-width:3px,color:#000;")
@@ -143,8 +221,8 @@ def main(n=60000, seed=0):
     out.append("  end")
 
     # edges: group teams -> R16 winner node
-    for mid, (sa, sb) in T._R32.items():
-        a, b = team_of(sa), team_of(sb)
+    for mid in T._R32:
+        a, b = r32_pair(mid)
         w = win[mid]
         out.append(f'  {nid("g_", a)} --> {nid("k1_", w)}')
         out.append(f'  {nid("g_", b)} --> {nid("k1_", w)}')
